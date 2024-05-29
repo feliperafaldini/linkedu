@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "201965391343",
+    "project_id": "projeto-integrador-3semestre",
+    "storage_bucket": "projeto-integrador-3semestre.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201965391343:android:05df4f246de35a2f677a1a",
+        "android_client_info": {
+          "package_name": "com.example.linkedu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrHxghJELK9h4W0tW6DklZT2TObRYs3Jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201965391343:android:496833f2f2c22ca3677a1a",
+        "android_client_info": {
+          "package_name": "com.example.projeto_integrador_terceiro_semestre"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrHxghJELK9h4W0tW6DklZT2TObRYs3Jk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
