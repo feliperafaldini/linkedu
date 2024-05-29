@@ -57,10 +57,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextFormField(
                     controller: usernameController,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        hintText: 'Nome de usuário'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Nome de usuário',
+                    ),
                     validator: (value) {
                       if (value == null || value.length <= 5) {
                         return 'Usuário inválido';

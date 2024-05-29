@@ -37,14 +37,16 @@ class _HomePageState extends State<HomePage> {
             child: Text('Não há mais vagas disponíveis para você :('))
         : Stack(
             children: companies
-                .map((company) => CardPage(
-                      company: company,
-                      job: const Job(
-                          description: 'descrição',
-                          hours: 'horário',
-                          position: 'cargo'),
-                      isFront: companies.last == company,
-                    ))
+                .map(
+                  (company) => CardPage(
+                    company: company,
+                    job: const Job(
+                        description: 'descrição',
+                        hours: 'horário',
+                        position: 'cargo'),
+                    isFront: companies.last == company,
+                  ),
+                )
                 .toList(),
           );
   }
@@ -87,15 +89,15 @@ class _HomePageState extends State<HomePage> {
             tabs: const [
               GButton(
                 icon: Icons.cases_outlined,
-                text: 'Jobs',
+                text: 'Vagas',
               ),
               GButton(
                 icon: Icons.messenger_outline,
-                text: 'Messages',
+                text: 'Menssagens',
               ),
               GButton(
                 icon: Icons.person_outline_outlined,
-                text: 'Profile',
+                text: 'Perfil',
               ),
             ],
           ),
