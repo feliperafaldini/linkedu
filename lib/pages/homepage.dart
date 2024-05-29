@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                         hours: 'horário',
                         position: 'cargo'),
                     isFront: companies.last == company,
-                  ),
+                  )
                 )
                 .toList(),
           );
