@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:linkedu/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:provider/provider.dart';
 
 import 'components/cardprovider.dart';
@@ -12,6 +15,8 @@ import 'theme/light_mode.dart';
 // import 'pages/intropage.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
