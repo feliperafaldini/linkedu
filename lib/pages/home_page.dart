@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
@@ -37,18 +38,20 @@ class _HomePageState extends State<HomePage> {
             child: Text('Não há mais vagas disponíveis para você :('))
         : Stack(
             children: companies
-                .map(
-                  (company) => CardPage(
-                    company: company,
-                    job: const Job(
-                        description: 'descrição',
-                        hours: 'horário',
-                        position: 'cargo'),
-                    isFront: companies.last == company,
-                  )
-                )
+                .map((company) => CardPage(
+                      company: company,
+                      job: const Job(
+                          description: 'descrição',
+                          hours: 'horário',
+                          position: 'cargo'),
+                      isFront: companies.last == company,
+                    ))
                 .toList(),
           );
+  }
+
+  void logout() {
+    FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -67,6 +70,14 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: logout,
+              icon: const Icon(
+                Icons.logout,
+              ),
+            ),
+          ],
         ),
         body: changeBody(selectedIndex),
         bottomNavigationBar: Padding(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../models/company.dart';
@@ -81,7 +83,7 @@ class CardProvider extends ChangeNotifier {
     _isDragging = false;
     notifyListeners();
 
-    final status = getStatus();
+    final status = getStatus(force: true);
 
     if (status != null) {
       SnackBar(
@@ -111,15 +113,32 @@ class CardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  CardStatus? getStatus() {
+  double getStatusOpacity() {
+    const delta = 100;
+    final pos = max(_position.dx.abs(), _position.dy.abs());
+    final opacity = pos / delta;
+
+    return min(opacity, 1);
+  }
+
+  CardStatus? getStatus({bool force = false}) {
     final x = _position.dx;
 
-    const delta = 100;
+    if (force) {
+      const delta = 200;
 
-    if (x >= delta) {
-      return CardStatus.like;
-    } else if (x <= -delta) {
-      return CardStatus.dislike;
+      if (x >= delta) {
+        return CardStatus.like;
+      } else if (x <= -delta) {
+        return CardStatus.dislike;
+      }
+    } else {
+      const delta = 40;
+      if (x >= delta) {
+        return CardStatus.like;
+      } else if (x <= -delta) {
+        return CardStatus.dislike;
+      }
     }
     return null;
   }

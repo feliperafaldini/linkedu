@@ -46,7 +46,7 @@ class _CardPageState extends State<CardPage> {
         child: Column(
           children: [
             widget.isFront ? buildFrontCard() : buildCard(),
-            const SizedBox(height: 5),
+            const SizedBox(height: 20),
             buildButtons(),
           ],
         ),
@@ -74,10 +74,16 @@ class _CardPageState extends State<CardPage> {
             ..translate(-center.dx, -center.dy);
 
           return AnimatedContainer(
-              curve: Curves.easeInOut,
-              transform: rotatedMatrix..translate(position.dx, position.dy),
-              duration: Duration(milliseconds: milliseconds),
-              child: Stack(children: [buildCard(), buildStamps()]));
+            curve: Curves.easeInOut,
+            transform: rotatedMatrix..translate(position.dx, position.dy),
+            duration: Duration(milliseconds: milliseconds),
+            child: Stack(
+              children: [
+                buildCard(),
+                buildStamps(),
+              ],
+            ),
+          );
         },
       ),
       onPanStart: (details) {
@@ -109,7 +115,7 @@ class _CardPageState extends State<CardPage> {
             color: Colors.white,
             image: DecorationImage(
               image: NetworkImage(widget.company.imgPath),
-              alignment: const Alignment(-0.3, 0),
+              alignment: const Alignment(0, 0),
             ),
           ),
           child: Stack(
@@ -157,6 +163,7 @@ class _CardPageState extends State<CardPage> {
   Widget buildStamps() {
     final provider = Provider.of<CardProvider>(context);
     final status = provider.getStatus();
+    final opacity = provider.getStatusOpacity();
 
     switch (status) {
       case CardStatus.like:
@@ -164,15 +171,17 @@ class _CardPageState extends State<CardPage> {
           angle: -0.5,
           color: Colors.green,
           text: 'APPLY',
+          opacity: opacity,
         );
-        return child;
+        return Positioned(top: 64, left: 50, child: child);
       case CardStatus.dislike:
         final child = buildStamp(
           angle: 0.5,
           color: Colors.red,
           text: 'DENY',
+          opacity: opacity,
         );
-        return child;
+        return Positioned(top: 64, right: 50, child: child);
       default:
         return Container();
     }
@@ -182,25 +191,29 @@ class _CardPageState extends State<CardPage> {
     double angle = 0,
     required Color color,
     required String text,
+    required double opacity,
   }) {
-    return Transform.rotate(
-      angle: angle,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: color,
-            width: 4,
+    return Opacity(
+      opacity: opacity,
+      child: Transform.rotate(
+        angle: angle,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: color,
+              width: 4,
+            ),
           ),
-        ),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: color,
-            fontSize: 48,
-            fontWeight: FontWeight.bold,
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: color,
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
