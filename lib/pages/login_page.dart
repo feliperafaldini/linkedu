@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../helper/helper_functions.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,12 +27,21 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      if (context.mounted) Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      displayMessageToUser('Erro ao fazer login. Erro ${e.code}', context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: Container(

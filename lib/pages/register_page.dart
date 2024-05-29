@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../helper/helper_functions.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -18,11 +21,43 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
 
+  void registerUser() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+
+    if (passwordController.text != passwordConfirmController.text) {
+      Navigator.pop(context);
+
+      displayMessageToUser('Erro ao verificar senhas', context);
+    } else {
+      try {
+        UserCredential? userCredential =
+            await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+
+        Navigator.pop(context);
+      } on FirebaseAuthException catch (e) {
+        Navigator.pop(context);
+
+        displayMessageToUser(
+          'Erro ao criar cadastro. Erro: ${e.code}',
+          context,
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -30,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: Container(
@@ -177,7 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, '/loginpage');
+                        registerUser();
                       }
                     },
                     child: Text(

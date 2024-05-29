@@ -5,11 +5,12 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:provider/provider.dart';
 
-import 'components/cardprovider.dart';
-import 'pages/homepage.dart';
-import 'pages/loginpage.dart';
-import 'pages/recoveraccount.dart';
-import 'pages/registerpage.dart';
+import 'auth/auth.dart';
+import 'components/card_provider.dart';
+import 'pages/home_page.dart';
+import 'pages/login_page.dart';
+import 'pages/recovera_ccount.dart';
+import 'pages/register_page.dart';
 import 'theme/dark_mode.dart';
 import 'theme/light_mode.dart';
 // import 'pages/intropage.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         title: 'Projeto Integrador - LINKEDU',
         theme: lightMode,
         darkTheme: darkMode,
-        home: const LoginPage(),
+        home: const AuthPage(),
         routes: {
           '/loginpage': (context) => const LoginPage(),
           '/registerpage': (context) => const RegisterPage(),

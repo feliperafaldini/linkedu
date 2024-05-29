@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../components/cardprovider.dart';
+import '../components/card_provider.dart';
 import '../models/company.dart';
 import '../models/job.dart';
 
@@ -77,7 +77,7 @@ class _CardPageState extends State<CardPage> {
               curve: Curves.easeInOut,
               transform: rotatedMatrix..translate(position.dx, position.dy),
               duration: Duration(milliseconds: milliseconds),
-              child: buildCard());
+              child: Stack(children: [buildCard(), buildStamps()]));
         },
       ),
       onPanStart: (details) {
@@ -148,6 +148,59 @@ class _CardPageState extends State<CardPage> {
                 ),
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildStamps() {
+    final provider = Provider.of<CardProvider>(context);
+    final status = provider.getStatus();
+
+    switch (status) {
+      case CardStatus.like:
+        final child = buildStamp(
+          angle: -0.5,
+          color: Colors.green,
+          text: 'APPLY',
+        );
+        return child;
+      case CardStatus.dislike:
+        final child = buildStamp(
+          angle: 0.5,
+          color: Colors.red,
+          text: 'DENY',
+        );
+        return child;
+      default:
+        return Container();
+    }
+  }
+
+  Widget buildStamp({
+    double angle = 0,
+    required Color color,
+    required String text,
+  }) {
+    return Transform.rotate(
+      angle: angle,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: color,
+            width: 4,
+          ),
+        ),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: color,
+            fontSize: 48,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

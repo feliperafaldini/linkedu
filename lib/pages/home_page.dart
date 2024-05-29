@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../components/cardprovider.dart';
+import '../components/card_provider.dart';
 import '../models/job.dart';
-import 'cardpage.dart';
+import 'card_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
