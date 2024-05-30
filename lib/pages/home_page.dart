@@ -35,17 +35,20 @@ class _HomePageState extends State<HomePage> {
 
     return companies.isEmpty
         ? const Center(
-            child: Text('Não há mais vagas disponíveis para você :('))
+            child: Text('Não há mais vagas disponíveis para você :('),
+          )
         : Stack(
             children: companies
-                .map((company) => CardPage(
-                      company: company,
-                      job: const Job(
-                          description: 'descrição',
-                          hours: 'horário',
-                          position: 'cargo'),
-                      isFront: companies.last == company,
-                    ))
+                .map(
+                  (company) => CardPage(
+                    company: company,
+                    job: const Job(
+                        description: 'descrição',
+                        hours: 'horário',
+                        position: 'cargo'),
+                    isFront: companies.last == company,
+                  ),
+                )
                 .toList(),
           );
   }
@@ -75,11 +78,14 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               onPressed: logout,
+              hoverColor: Theme.of(context).colorScheme.secondary,
               icon: Icon(
                 Icons.logout,
                 color: Theme.of(context).colorScheme.inversePrimary,
+                size: 32,
               ),
             ),
+            const SizedBox(width: 10),
           ],
         ),
         body: Container(
@@ -93,13 +99,15 @@ class _HomePageState extends State<HomePage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
             child: GNav(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               rippleColor: const Color.fromARGB(255, 8, 138, 245),
               hoverColor: Colors.grey,
               haptic: true,
               backgroundColor: Theme.of(context).colorScheme.surface,
-              tabBackgroundColor: Colors.blue.shade300,
+              tabBackgroundColor: Theme.of(context).colorScheme.tertiary,
               activeColor: Theme.of(context).colorScheme.primary,
               gap: 10,
+              iconSize: 30,
               padding: const EdgeInsets.symmetric(horizontal: 25),
               onTabChange: (value) {
                 setState(
