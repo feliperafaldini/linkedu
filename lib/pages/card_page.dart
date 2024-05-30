@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../components/card_provider.dart';
+import '../provider/card_provider.dart';
 import '../models/company.dart';
 import '../models/job.dart';
 

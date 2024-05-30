@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../components/card_provider.dart';
+import '../provider/card_provider.dart';
 import '../models/job.dart';
 import 'card_page.dart';
 

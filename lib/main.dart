@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 import 'auth/auth.dart';
-import 'components/card_provider.dart';
+import 'provider/card_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
 import 'pages/recover_account.dart';
@@ -26,8 +26,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CardProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => CardProvider(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Projeto Integrador - LINKEDU',
