@@ -228,7 +228,7 @@ class _CardPageState extends State<CardPage> {
         // Botão Dislike
         Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
+            color: Colors.white,
             border: Border.all(
               color: Colors.red.withOpacity(0.1),
               width: 2,
