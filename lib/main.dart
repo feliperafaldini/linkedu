@@ -9,7 +9,7 @@ import 'auth/auth.dart';
 import 'components/card_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
-import 'pages/recovera_ccount.dart';
+import 'pages/recover_account.dart';
 import 'pages/register_page.dart';
 import 'theme/dark_mode.dart';
 import 'theme/light_mode.dart';

@@ -47,7 +47,7 @@ class _CardPageState extends State<CardPage> {
           children: [
             widget.isFront ? buildFrontCard() : buildCard(),
             const SizedBox(height: 20),
-            buildButtons(),
+            buildButtons(context),
           ],
         ),
       ),
@@ -220,7 +220,7 @@ class _CardPageState extends State<CardPage> {
     );
   }
 
-  Widget buildButtons() {
+  Widget buildButtons(context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -228,7 +228,7 @@ class _CardPageState extends State<CardPage> {
         // Botão Dislike
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             border: Border.all(
               color: Colors.red.withOpacity(0.1),
               width: 2,

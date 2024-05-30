@@ -17,14 +17,14 @@ class _RecoverAccountState extends State<RecoverAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios)),
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
           child: Container(

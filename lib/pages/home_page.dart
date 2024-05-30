@@ -61,56 +61,71 @@ class _HomePageState extends State<HomePage> {
       title: 'LINKEDU',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text(
+          title: Text(
             'LINKEDU',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
               letterSpacing: 2,
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
           ),
           centerTitle: true,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           actions: [
             IconButton(
               onPressed: logout,
-              icon: const Icon(
+              icon: Icon(
                 Icons.logout,
+                color: Theme.of(context).colorScheme.inversePrimary,
               ),
             ),
           ],
         ),
-        body: changeBody(selectedIndex),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
-          child: GNav(
-            rippleColor: Colors.blue,
-            hoverColor: Colors.grey,
-            haptic: true,
-            tabBackgroundColor: Colors.blue.shade200,
-            activeColor: Colors.white,
-            gap: 10,
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            onTabChange: (value) {
-              setState(
-                () {
-                  selectedIndex = value;
-                },
-              );
-            },
-            tabs: const [
-              GButton(
-                icon: Icons.cases_outlined,
-                text: 'Vagas',
-              ),
-              GButton(
-                icon: Icons.messenger_outline,
-                text: 'Menssagens',
-              ),
-              GButton(
-                icon: Icons.person_outline_outlined,
-                text: 'Perfil',
-              ),
-            ],
+        body: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+          ),
+          child: changeBody(selectedIndex),
+        ),
+        bottomNavigationBar: Container(
+          color: Theme.of(context).colorScheme.surface,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
+            child: GNav(
+              rippleColor: const Color.fromARGB(255, 8, 138, 245),
+              hoverColor: Colors.grey,
+              haptic: true,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              tabBackgroundColor: Colors.blue.shade300,
+              activeColor: Theme.of(context).colorScheme.primary,
+              gap: 10,
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              onTabChange: (value) {
+                setState(
+                  () {
+                    selectedIndex = value;
+                  },
+                );
+              },
+              tabs: [
+                GButton(
+                  icon: Icons.cases_outlined,
+                  text: 'Vagas',
+                  iconColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                GButton(
+                  icon: Icons.messenger_outline,
+                  text: 'Menssagens',
+                  iconColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                GButton(
+                  icon: Icons.person_outline_outlined,
+                  text: 'Perfil',
+                  iconColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ],
+            ),
           ),
         ),
       ),
