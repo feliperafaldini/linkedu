@@ -123,6 +123,7 @@ class _CardPageState extends State<CardPage> {
               Container(
                 padding: const EdgeInsets.all(20),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Spacer(flex: 2),
                     buildName(widget.company, widget.job),
@@ -142,12 +143,13 @@ class _CardPageState extends State<CardPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       IconButton(
+                        onPressed: () {},
+                        tooltip: 'Descrição',
                         icon: const Icon(
                           Icons.info_outline,
                           size: 30,
                           color: Colors.black,
                         ),
-                        onPressed: () {},
                       ),
                     ],
                   ),
@@ -352,23 +354,18 @@ class _CardPageState extends State<CardPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(1, 1, 1, 1),
-              child: Text(
-                job.position,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
+            Text(
+              job.position,
+              style: const TextStyle(
+                fontSize: 18,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(1, 1, 1, 1),
-              child: Text(
-                job.description,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
+            Text(
+              job.description,
+              style: const TextStyle(
+                fontSize: 16,
               ),
             ),
           ],

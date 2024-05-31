@@ -114,7 +114,7 @@ class CardProvider extends ChangeNotifier {
   }
 
   double getStatusOpacity() {
-    const delta = 100;
+    const delta = 200;
     final pos = max(_position.dx.abs(), _position.dy.abs());
     final opacity = pos / delta;
 

@@ -32,7 +32,8 @@ class _RegisterPageState extends State<RegisterPage> {
     if (passwordController.text != passwordConfirmController.text) {
       Navigator.pop(context);
 
-      displayMessageToUser('Erro ao verificar senhas', context);
+      displayMessageToUser('Erro ao verificar senhas',
+          'Erro: As senhas são diferentes', context);
     } else {
       try {
         UserCredential? userCredential =
@@ -41,12 +42,23 @@ class _RegisterPageState extends State<RegisterPage> {
           password: passwordController.text,
         );
 
-        Navigator.pop(context);
-      } on FirebaseAuthException catch (e) {
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
 
         displayMessageToUser(
-          'Erro ao criar cadastro. Erro: ${e.code}',
+          'Sucesso ao criar cadastro',
+          'Seu cadastro foi criado com sucess',
+          // ignore: use_build_context_synchronously
+          context,
+        );
+      } on FirebaseAuthException catch (e) {
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+
+        displayMessageToUser(
+          'Erro ao criar cadastro.',
+          'Erro: ${e.code}',
+          // ignore: use_build_context_synchronously
           context,
         );
       }

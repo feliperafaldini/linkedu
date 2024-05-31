@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/messages.dart';
 
 class MessagePage extends StatefulWidget {
   final Message message;
 
-  const MessagePage({super.key, required this.message});
+  const MessagePage({
+    super.key,
+    required this.message,
+  });
 
   @override
   State<MessagePage> createState() => _MessagePageState();
@@ -15,7 +17,7 @@ class MessagePage extends StatefulWidget {
 class _MessagePageState extends State<MessagePage> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
+    return SizedBox(
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -30,19 +32,31 @@ class _MessagePageState extends State<MessagePage> {
   Widget buildMessages() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return ListView(
-          children: [
-            buildMessage(),
-          ],
+        return ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          itemCount: 1,
+          itemBuilder: (BuildContext context, int index) {
+            return buildMessage();
+          },
         );
       },
     );
   }
 
   Widget buildMessage() {
-    return ListTile(
-      leading: Text(widget.message.company),
-      title: Text(widget.message.message),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.blue.shade100,
+      ),
+      height: 100,
+      child: ListTile(
+        leading: Text(widget.message.company),
+        title: Center(
+          child: Text(widget.message.message),
+        ),
+      ),
     );
   }
 }

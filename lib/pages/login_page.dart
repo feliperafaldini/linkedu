@@ -31,10 +31,13 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
+      // ignore: use_build_context_synchronously
       if (context.mounted) Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
-      displayMessageToUser('Erro ao fazer login. Erro ${e.code}', context);
+      // ignore: use_build_context_synchronously
+      displayMessageToUser('Erro ao fazer login.', 'Erro: ${e.code}', context);
     }
   }
 

@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 
 import '../provider/card_provider.dart';
 import '../models/job.dart';
+import '../provider/message_provider.dart';
 import 'card_page.dart';
+import 'message_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return buildCards();
       case 1:
-        break;
+        return buildMessages();
       case 2:
         break;
       default:
@@ -53,6 +55,23 @@ class _HomePageState extends State<HomePage> {
           );
   }
 
+  Widget buildMessages() {
+    final provider = Provider.of<MessageProvider>(context);
+    final messages = provider.messages;
+
+    return messages.isEmpty
+        ? const Center(
+            child: Text('Não há nenhuma mensagem para você :('),
+          )
+        : Column(
+            children: messages
+                .map(
+                  (message) => MessagePage(message: message),
+                )
+                .toList(),
+          );
+  }
+
   void logout() {
     FirebaseAuth.instance.signOut();
   }
@@ -78,7 +97,8 @@ class _HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               onPressed: logout,
-              hoverColor: Theme.of(context).colorScheme.secondary,
+              tooltip: 'Logout',
+              hoverColor: Theme.of(context).colorScheme.primary,
               icon: Icon(
                 Icons.logout,
                 color: Theme.of(context).colorScheme.inversePrimary,
