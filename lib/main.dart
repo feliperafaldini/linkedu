@@ -5,7 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:provider/provider.dart';
 
-import 'auth/auth.dart';
+import 'provider/auth_provider.dart';
+import 'services/auth/auth.dart';
 import 'provider/card_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => MessageProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthService(),
         ),
       ],
       child: MaterialApp(

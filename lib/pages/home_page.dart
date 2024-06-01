@@ -1,11 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:ionicons/ionicons.dart';
 
 import '../provider/card_provider.dart';
 import '../models/job.dart';
-import '../provider/message_provider.dart';
+import '../services/helper/helper_functions.dart';
 import 'card_page.dart';
 import 'message_page.dart';
 
@@ -56,24 +56,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildMessages() {
-    final provider = Provider.of<MessageProvider>(context);
-    final messages = provider.messages;
-
-    return messages.isEmpty
-        ? const Center(
-            child: Text('Não há nenhuma mensagem para você :('),
-          )
-        : Column(
-            children: messages
-                .map(
-                  (message) => MessagePage(message: message),
-                )
-                .toList(),
-          );
+    return const MessagePage();
   }
 
   void logout() {
-    FirebaseAuth.instance.signOut();
+    logoutMessage(context);
   }
 
   @override
@@ -138,17 +125,17 @@ class _HomePageState extends State<HomePage> {
               },
               tabs: [
                 GButton(
-                  icon: Icons.cases_outlined,
+                  icon: Ionicons.briefcase_outline,
                   text: 'Vagas',
                   iconColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 GButton(
-                  icon: Icons.messenger_outline,
+                  icon: Ionicons.mail_open_outline,
                   text: 'Menssagens',
                   iconColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 GButton(
-                  icon: Icons.person_outline_outlined,
+                  icon: Ionicons.person_circle_outline,
                   text: 'Perfil',
                   iconColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
