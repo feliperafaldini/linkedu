@@ -14,7 +14,6 @@ import 'pages/recover_account.dart';
 import 'pages/register_page.dart';
 import 'theme/dark_mode.dart';
 import 'theme/light_mode.dart';
-// import 'pages/intropage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
