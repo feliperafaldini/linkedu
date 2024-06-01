@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/card_provider.dart';
-import '../models/company.dart';
-import '../models/job.dart';
+import '../../provider/card_provider.dart';
+import '../../models/company.dart';
+import '../../models/job.dart';
 
 class CardPage extends StatefulWidget {
   final Company company;

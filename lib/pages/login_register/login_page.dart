@@ -1,78 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/auth_provider.dart';
-import '../services/helper/helper_functions.dart';
+import '../../provider/auth_provider.dart';
+import '../../services/helper/helper_functions.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
-  bool _obscureTextConfirm = true;
 
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmController = TextEditingController();
 
-  void registerUser() async {
+  void login() async {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     progressIndicator(context);
 
-    if (passwordController.text != passwordConfirmController.text) {
+    try {
+      await authService.signInWithEmailandPassword(
+        emailController.text,
+        passwordController.text,
+      );
       Navigator.pop(context);
-
-      displayMessageToUser('Erro ao verificar senhas',
-          'Erro: As senhas são diferentes', context);
-    } else {
-      try {
-        await authService.createUserWithEmailandPassword(
-          emailController.text,
-          passwordController.text,
-        );
-
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-
-        displayMessageToUser(
-          'Sucesso ao criar cadastro',
-          'Seu cadastro foi criado com sucesso',
-          // ignore: use_build_context_synchronously
-          context,
-        );
-      } catch (e) {
-        Navigator.pop(context);
-
-        displayMessageToUser(
-          'Erro ao criar cadastro.',
-          'Erro: $e',
-          // ignore: use_build_context_synchronously
-          context,
-        );
-      }
+    } catch (e) {
+      Navigator.pop(context);
+      displayMessageToUser('Erro ao fazer login.', 'Erro: $e', context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(Icons.arrow_back_ios),
-        ),
-      ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
@@ -95,25 +61,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
 
                   const SizedBox(height: 25),
-
-                  // TEXTFIELD USERNAME
-                  TextFormField(
-                    controller: usernameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: 'Nome de usuário',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.length <= 5) {
-                        return 'Usuário inválido';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  const SizedBox(height: 15),
 
                   // TEXTFIELD EMAIL
                   TextFormField(
@@ -163,48 +110,33 @@ class _RegisterPageState extends State<RegisterPage> {
                     obscureText: _obscureText,
                     obscuringCharacter: '*',
                     validator: (value) {
-                      if (value == null) {
+                      if (value == null || value.length < 6) {
                         return 'Senha inválida';
-                      } else if (value.length < 6) {
-                        return 'Senhas devem conter ao menos 6 digitos';
                       }
                       return null;
                     },
                   ),
 
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 5),
 
-                  // TEXTFIELD CONFIRMAR SENHA
-                  TextFormField(
-                    controller: passwordConfirmController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: 'Confirmação de senha',
-                      suffixIcon: GestureDetector(
+                  // BOTÃO RECUPERAR SENHA
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
                         onTap: () {
-                          setState(
-                            () {
-                              _obscureTextConfirm = !_obscureTextConfirm;
-                            },
-                          );
+                          Navigator.pushNamed(context, '/recoveraccount');
                         },
-                        child: Icon(
-                          _obscureTextConfirm
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                        child: const Text(
+                          'Recuperar Senha',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                    ),
-                    obscureText: _obscureTextConfirm,
-                    obscuringCharacter: '*',
-                    validator: (value) {
-                      if (value != passwordController.text) {
-                        return 'Confirmação de senha inválida';
-                      }
-                      return null;
-                    },
+                      const SizedBox(width: 5),
+                    ],
                   ),
 
                   const SizedBox(height: 15),
@@ -220,11 +152,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        registerUser();
+                        login();
                       }
                     },
                     child: Text(
-                      'REGISTRAR',
+                      'LOGIN',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         letterSpacing: 2,
@@ -234,6 +166,33 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
 
                   const SizedBox(height: 40),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Ainda não cadastrado?',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/registerpage');
+                        },
+                        child: Text(
+                          'Registre agora',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),

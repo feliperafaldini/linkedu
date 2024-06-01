@@ -6,8 +6,8 @@ import 'package:ionicons/ionicons.dart';
 import '../provider/card_provider.dart';
 import '../models/job.dart';
 import '../services/helper/helper_functions.dart';
-import 'card_page.dart';
-import 'message_page.dart';
+import 'card_page/card_page.dart';
+import 'messages_chat/message_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

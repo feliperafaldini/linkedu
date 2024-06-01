@@ -1,44 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/auth_provider.dart';
-import '../services/helper/helper_functions.dart';
+import '../../provider/auth_provider.dart';
+import '../../services/helper/helper_functions.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   bool _obscureText = true;
+  bool _obscureTextConfirm = true;
 
   final _formKey = GlobalKey<FormState>();
 
+  TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
 
-  void login() async {
+  void registerUser() async {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     progressIndicator(context);
 
-    try {
-      await authService.signInWithEmailandPassword(
-        emailController.text,
-        passwordController.text,
-      );
+    if (passwordController.text != passwordConfirmController.text) {
       Navigator.pop(context);
-    } catch (e) {
-      Navigator.pop(context);
-      displayMessageToUser('Erro ao fazer login.', 'Erro: $e', context);
+
+      displayMessageToUser('Erro ao verificar senhas',
+          'Erro: As senhas são diferentes', context);
+    } else {
+      try {
+        await authService.createUserWithEmailandPassword(
+          emailController.text,
+          passwordController.text,
+        );
+
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+
+        displayMessageToUser(
+          'Sucesso ao criar cadastro',
+          'Seu cadastro foi criado com sucesso',
+          // ignore: use_build_context_synchronously
+          context,
+        );
+      } catch (e) {
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+
+        displayMessageToUser(
+          'Erro ao criar cadastro.',
+          'Erro: $e',
+          // ignore: use_build_context_synchronously
+          context,
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
@@ -61,6 +96,25 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   const SizedBox(height: 25),
+
+                  // TEXTFIELD USERNAME
+                  TextFormField(
+                    controller: usernameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Nome de usuário',
+                    ),
+                    validator: (value) {
+                      if (value == null || value.length <= 5) {
+                        return 'Usuário inválido';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 15),
 
                   // TEXTFIELD EMAIL
                   TextFormField(
@@ -110,33 +164,48 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: _obscureText,
                     obscuringCharacter: '*',
                     validator: (value) {
-                      if (value == null || value.length < 6) {
+                      if (value == null) {
                         return 'Senha inválida';
+                      } else if (value.length < 6) {
+                        return 'Senhas devem conter ao menos 6 digitos';
                       }
                       return null;
                     },
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
 
-                  // BOTÃO RECUPERAR SENHA
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
+                  // TEXTFIELD CONFIRMAR SENHA
+                  TextFormField(
+                    controller: passwordConfirmController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Confirmação de senha',
+                      suffixIcon: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/recoveraccount');
+                          setState(
+                            () {
+                              _obscureTextConfirm = !_obscureTextConfirm;
+                            },
+                          );
                         },
-                        child: const Text(
-                          'Recuperar Senha',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                        child: Icon(
+                          _obscureTextConfirm
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                         ),
                       ),
-                      const SizedBox(width: 5),
-                    ],
+                    ),
+                    obscureText: _obscureTextConfirm,
+                    obscuringCharacter: '*',
+                    validator: (value) {
+                      if (value != passwordController.text) {
+                        return 'Confirmação de senha inválida';
+                      }
+                      return null;
+                    },
                   ),
 
                   const SizedBox(height: 15),
@@ -152,11 +221,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        login();
+                        registerUser();
                       }
                     },
                     child: Text(
-                      'LOGIN',
+                      'REGISTRAR',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         letterSpacing: 2,
@@ -166,33 +235,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   const SizedBox(height: 40),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Ainda não cadastrado?',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/registerpage');
-                        },
-                        child: Text(
-                          'Registre agora',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),

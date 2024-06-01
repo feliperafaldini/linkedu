@@ -9,9 +9,9 @@ import 'provider/auth_provider.dart';
 import 'services/auth/auth.dart';
 import 'provider/card_provider.dart';
 import 'pages/home_page.dart';
-import 'pages/login_page.dart';
-import 'pages/recover_account.dart';
-import 'pages/register_page.dart';
+import 'pages/login_register/login_page.dart';
+import 'pages/login_register/recover_account.dart';
+import 'pages/login_register/register_page.dart';
 import 'theme/dark_mode.dart';
 import 'theme/light_mode.dart';
 
