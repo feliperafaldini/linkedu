@@ -12,7 +12,6 @@ import 'pages/home_page.dart';
 import 'pages/login_page.dart';
 import 'pages/recover_account.dart';
 import 'pages/register_page.dart';
-import 'provider/message_provider.dart';
 import 'theme/dark_mode.dart';
 import 'theme/light_mode.dart';
 // import 'pages/intropage.dart';
@@ -32,9 +31,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => CardProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => MessageProvider(),
         ),
         ChangeNotifierProvider(
           create: (context) => AuthService(),

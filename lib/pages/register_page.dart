@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,11 +39,13 @@ class _RegisterPageState extends State<RegisterPage> {
           passwordController.text,
         );
 
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
 
         displayMessageToUser(
           'Sucesso ao criar cadastro',
           'Seu cadastro foi criado com sucesso',
+          // ignore: use_build_context_synchronously
           context,
         );
       } catch (e) {
@@ -53,6 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
         displayMessageToUser(
           'Erro ao criar cadastro.',
           'Erro: $e',
+          // ignore: use_build_context_synchronously
           context,
         );
       }
