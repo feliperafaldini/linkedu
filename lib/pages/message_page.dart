@@ -1,13 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../models/messages.dart';
+import 'chatpage.dart';
 
 class MessagePage extends StatefulWidget {
-  final Message message;
-
   const MessagePage({
     super.key,
-    required this.message,
   });
 
   @override
@@ -15,48 +14,49 @@ class MessagePage extends StatefulWidget {
 }
 
 class _MessagePageState extends State<MessagePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            buildMessages(),
-          ],
-        ),
-      ),
-    );
-  }
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('users').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Text('Error');
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text('Loading...');
+        }
 
-  Widget buildMessages() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: 1,
-          itemBuilder: (BuildContext context, int index) {
-            return buildMessage();
-          },
+        return ListView(
+          children: snapshot.data!.docs
+              .map<Widget>((doc) => _buildMessageListItem(doc))
+              .toList(),
         );
       },
     );
   }
 
-  Widget buildMessage() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.blue.shade100,
-      ),
-      height: 100,
-      child: ListTile(
-        leading: Text(widget.message.company),
-        title: Center(
-          child: Text(widget.message.message),
-        ),
-      ),
-    );
+  Widget _buildMessageListItem(DocumentSnapshot document) {
+    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+
+    if (_auth.currentUser!.email != data['email']) {
+      return ListTile(
+        title: Text(data['email']),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(
+                receiverUserEmail: data['email'],
+                receiverUserId: data['uid'],
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      return Container();
+    }
   }
 }

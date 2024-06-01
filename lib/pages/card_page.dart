@@ -104,6 +104,7 @@ class _CardPageState extends State<CardPage> {
   }
 
   Widget buildCard() {
+    var overlayPortalController = OverlayPortalController();
     return SizedBox(
       height: 480,
       child: ClipRRect(
@@ -143,12 +144,18 @@ class _CardPageState extends State<CardPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: overlayPortalController.toggle,
                         tooltip: 'Descrição',
-                        icon: const Icon(
-                          Icons.info_outline,
-                          size: 30,
-                          color: Colors.black,
+                        icon: OverlayPortal(
+                          controller: overlayPortalController,
+                          overlayChildBuilder: (BuildContext context) {
+                            return Positioned(child: Container());
+                          },
+                          child: const Icon(
+                            Icons.info_outline,
+                            size: 30,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ],

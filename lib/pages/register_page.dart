@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../helper/helper_functions.dart';
+import '../provider/auth_provider.dart';
+import '../services/helper/helper_functions.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -22,12 +24,9 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordConfirmController = TextEditingController();
 
   void registerUser() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(child: CircularProgressIndicator());
-      },
-    );
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    progressIndicator(context);
 
     if (passwordController.text != passwordConfirmController.text) {
       Navigator.pop(context);
@@ -36,29 +35,24 @@ class _RegisterPageState extends State<RegisterPage> {
           'Erro: As senhas são diferentes', context);
     } else {
       try {
-        UserCredential? userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
+        await authService.createUserWithEmailandPassword(
+          emailController.text,
+          passwordController.text,
         );
 
-        // ignore: use_build_context_synchronously
         Navigator.pop(context);
 
         displayMessageToUser(
           'Sucesso ao criar cadastro',
-          'Seu cadastro foi criado com sucess',
-          // ignore: use_build_context_synchronously
+          'Seu cadastro foi criado com sucesso',
           context,
         );
-      } on FirebaseAuthException catch (e) {
-        // ignore: use_build_context_synchronously
+      } catch (e) {
         Navigator.pop(context);
 
         displayMessageToUser(
           'Erro ao criar cadastro.',
-          'Erro: ${e.code}',
-          // ignore: use_build_context_synchronously
+          'Erro: $e',
           context,
         );
       }

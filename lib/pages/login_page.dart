@@ -1,7 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../helper/helper_functions.dart';
+import '../provider/auth_provider.dart';
+import '../services/helper/helper_functions.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,25 +20,19 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
 
   void login() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    progressIndicator(context);
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      // ignore: use_build_context_synchronously
-      if (context.mounted) Navigator.pop(context);
-    } on FirebaseAuthException catch (e) {
-      // ignore: use_build_context_synchronously
+      await authService.signInWithEmailandPassword(
+        emailController.text,
+        passwordController.text,
+      );
       Navigator.pop(context);
-      // ignore: use_build_context_synchronously
-      displayMessageToUser('Erro ao fazer login.', 'Erro: ${e.code}', context);
+    } catch (e) {
+      Navigator.pop(context);
+      displayMessageToUser('Erro ao fazer login.', 'Erro: $e', context);
     }
   }
 
