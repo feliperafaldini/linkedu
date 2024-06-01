@@ -27,38 +27,32 @@ class _RegisterPageState extends State<RegisterPage> {
 
     progressIndicator(context);
 
-    if (passwordController.text != passwordConfirmController.text) {
+    try {
+      await authService.createUserWithEmailandPassword(
+        emailController.text,
+        passwordController.text,
+        usernameController.text,
+      );
+
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
 
-      displayMessageToUser('Erro ao verificar senhas',
-          'Erro: As senhas são diferentes', context);
-    } else {
-      try {
-        await authService.createUserWithEmailandPassword(
-          emailController.text,
-          passwordController.text,
-        );
-
+      displayMessageToUser(
+        'Sucesso ao criar cadastro',
+        'Seu cadastro foi criado com sucesso',
         // ignore: use_build_context_synchronously
-        Navigator.pop(context);
+        context,
+      );
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
 
-        displayMessageToUser(
-          'Sucesso ao criar cadastro',
-          'Seu cadastro foi criado com sucesso',
-          // ignore: use_build_context_synchronously
-          context,
-        );
-      } catch (e) {
+      displayMessageToUser(
+        'Erro ao criar cadastro.',
+        'Erro: $e',
         // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-
-        displayMessageToUser(
-          'Erro ao criar cadastro.',
-          'Erro: $e',
-          // ignore: use_build_context_synchronously
-          context,
-        );
-      }
+        context,
+      );
     }
   }
 

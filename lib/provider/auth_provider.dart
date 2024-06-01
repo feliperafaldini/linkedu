@@ -13,7 +13,6 @@ class AuthService extends ChangeNotifier {
   Future<UserCredential> signInWithEmailandPassword(
       String email, String password) async {
     try {
-      // Login
       UserCredential userCredential =
           await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
@@ -30,17 +29,18 @@ class AuthService extends ChangeNotifier {
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      // Login error
       throw Exception(e.code);
     }
   }
 
+  // Logout Function
   Future<void> signOut() async {
     return await _firebaseAuth.signOut();
   }
 
+  // Create account Function
   Future<UserCredential> createUserWithEmailandPassword(
-      String email, String password) async {
+      String email, String password, String name) async {
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -49,6 +49,7 @@ class AuthService extends ChangeNotifier {
         {
           'uid': userCredential.user!.uid,
           'email': email,
+          'name': name,
         },
       );
 

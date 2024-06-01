@@ -38,6 +38,27 @@ void displayMessageToUser(String title, String text, BuildContext context) {
   );
 }
 
+void exibirPopUp(context, String text) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: const Center(
+          child: Text('Descrição da vaga'),
+        ),
+        content: Text(text),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Fechar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 void logoutMessage(BuildContext context) {
   final authService = Provider.of<AuthService>(context, listen: false);
   showDialog(

@@ -25,7 +25,9 @@ class _MessagePageState extends State<MessagePage> {
           return const Text('Error');
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text('Loading...');
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
 
         return ListView(
@@ -41,19 +43,25 @@ class _MessagePageState extends State<MessagePage> {
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
     if (_auth.currentUser!.email != data['email']) {
-      return ListTile(
-        title: Text(data['email']),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatPage(
-                receiverUserEmail: data['email'],
-                receiverUserId: data['uid'],
-              ),
-            ),
-          );
-        },
+      return Column(
+        children: [
+          const Divider(),
+          ListTile(
+            title: Text(data['email']),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                    receiverUserEmail: data['email'],
+                    receiverUserId: data['uid'],
+                  ),
+                ),
+              );
+            },
+          ),
+          const Divider()
+        ],
       );
     } else {
       return Container();

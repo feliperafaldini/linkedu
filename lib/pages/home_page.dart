@@ -8,6 +8,7 @@ import '../models/job.dart';
 import '../services/helper/helper_functions.dart';
 import 'card_page/card_page.dart';
 import 'messages_chat/message_page.dart';
+import 'profile_page/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,8 +27,9 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return buildMessages();
       case 2:
-        break;
+        return buildProfile();
       default:
+        return buildCards();
     }
   }
 
@@ -57,6 +59,10 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildMessages() {
     return const MessagePage();
+  }
+
+  Widget buildProfile() {
+    return const ProfilePage();
   }
 
   void logout() {
