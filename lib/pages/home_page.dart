@@ -19,16 +19,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+  var messageIcon = Ionicons.mail_outline;
 
   changeBody(int selectedIndex) {
     switch (selectedIndex) {
       case 0:
+        messageIcon = Ionicons.mail_outline;
         return buildCards();
       case 1:
+        messageIcon = Ionicons.mail_open_outline;
         return buildMessages();
       case 2:
+        messageIcon = Ionicons.mail_outline;
         return buildProfile();
       default:
+        messageIcon = Ionicons.mail_outline;
         return buildCards();
     }
   }
@@ -136,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   iconColor: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 GButton(
-                  icon: Ionicons.mail_open_outline,
+                  icon: messageIcon,
                   text: 'Menssagens',
                   iconColor: Theme.of(context).colorScheme.inversePrimary,
                 ),

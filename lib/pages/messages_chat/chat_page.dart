@@ -46,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: _buildMessageList(),
           ),
+          const Divider(),
           _buildMessageInput(),
           const SizedBox(height: 25),
         ],
@@ -120,7 +121,10 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: TextField(
               controller: _messageController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 hintText: 'Digite a mensagem',
               ),
             ),

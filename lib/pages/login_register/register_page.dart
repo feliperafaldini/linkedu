@@ -43,6 +43,8 @@ class _RegisterPageState extends State<RegisterPage> {
         // ignore: use_build_context_synchronously
         context,
       );
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, '/loginpage');
     } catch (e) {
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -204,7 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   const SizedBox(height: 15),
 
-                  // BOTÃO LOGIN
+                  // BOTÃO REGISTER
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor:

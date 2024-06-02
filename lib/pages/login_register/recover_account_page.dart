@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/auth_provider.dart';
+import '../../services/helper/helper_functions.dart';
 
 class RecoverAccount extends StatefulWidget {
   const RecoverAccount({super.key});
@@ -12,6 +16,33 @@ class _RecoverAccountState extends State<RecoverAccount> {
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  void changePassword() async {
+    final auth = Provider.of<AuthService>(context, listen: false);
+
+    progressIndicator(context);
+
+    try {
+      await auth.changePassword(emailController.text);
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+      displayMessageToUser(
+        'Email enviado',
+        'Email de troca de senha enviado',
+        // ignore: use_build_context_synchronously
+        context,
+      );
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+      displayMessageToUser(
+        'Erro ao mudar de senhas',
+        'Erro: $e',
+        // ignore: use_build_context_synchronously
+        context,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,31 +79,13 @@ class _RecoverAccountState extends State<RecoverAccount> {
                   const SizedBox(height: 25),
 
                   Text(
-                    'Insira o nome de usuário ou email para recuperar a senha',
+                    'Insira o email para recuperar a senha',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                   ),
 
                   const SizedBox(height: 25),
-
-                  // TEXTFIELD USERNAME
-                  TextFormField(
-                    controller: usernameController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        hintText: 'Nome de usuário'),
-                    validator: (value) {
-                      if (value == null || value.length <= 5) {
-                        return 'Usuário inválido';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  const SizedBox(height: 15),
 
                   // TEXTFIELD EMAIL
                   TextFormField(
@@ -96,7 +109,7 @@ class _RecoverAccountState extends State<RecoverAccount> {
 
                   const SizedBox(height: 15),
 
-                  // BOTÃO LOGIN
+                  // BOTÃO RECOVER
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
@@ -107,7 +120,7 @@ class _RecoverAccountState extends State<RecoverAccount> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, '/loginpage');
+                        changePassword();
                       }
                     },
                     child: Text(

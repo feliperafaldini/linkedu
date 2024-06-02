@@ -43,25 +43,43 @@ class _MessagePageState extends State<MessagePage> {
     Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
     if (_auth.currentUser!.email != data['email']) {
-      return Column(
-        children: [
-          const Divider(),
-          ListTile(
-            title: Text(data['email']),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                    receiverUserEmail: data['email'],
-                    receiverUserId: data['uid'],
+      return SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade300,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatPage(
+                        receiverUserEmail: data['email'],
+                        receiverUserId: data['uid'],
+                      ),
+                    ),
+                  );
+                },
+                title: Center(
+                  child: Text(
+                    data['email'],
+                    style: const TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-              );
-            },
-          ),
-          const Divider()
-        ],
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                ),
+              ),
+            ),
+          ],
+        ),
       );
     } else {
       return Container();

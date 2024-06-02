@@ -35,31 +35,31 @@ class _ProfilePageState extends State<ProfilePage> {
           );
         }
         if (!snapshot.hasData || !snapshot.data!.exists) {
-          return const Center(child: Text('Erro ao carregar dados do usuário'));
+          return const Center(
+            child: Text('Erro ao carregar dados do usuário'),
+          );
         }
 
         var userData = snapshot.data!;
-        return Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Nome: '),
-                  Text(userData['name']),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Email: '),
-                  Text(userData['email']),
-                ],
-              ),
-            ],
-          ),
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Nome: '),
+                Text(userData['name']),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Email: '),
+                Text(userData['email']),
+              ],
+            ),
+          ],
         );
       },
     );
