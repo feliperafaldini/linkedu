@@ -144,7 +144,8 @@ class _CardPageState extends State<CardPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: () => exibirPopUp(context, 'Descrição da Vaga'),
+                        onPressed: () =>
+                            descriptionPopUp(context, 'Descrição da Vaga'),
                         tooltip: 'Descrição',
                         icon: const Icon(
                           Icons.info_outline,

@@ -54,8 +54,17 @@ dependencies:
   # Cloud Firestore
   cloud_firestore: ^4.17.5
 
+  # Firebase Storage
+  firebase_storage: ^11.7.7
+
   # Icones
   ionicons: ^0.2.2
+
+  # File Picker
+  file_picker: ^8.0.3
+
+  
+  
   
 
   

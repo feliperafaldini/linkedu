@@ -40,7 +40,7 @@ class AuthService extends ChangeNotifier {
 
   // Create account Function
   Future<UserCredential> createUserWithEmailandPassword(
-      String email, String password, String name) async {
+      String email, String password, String name, String imageUrl) async {
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -50,6 +50,7 @@ class AuthService extends ChangeNotifier {
           'uid': userCredential.user!.uid,
           'email': email,
           'name': name,
+          'image': imageUrl
         },
       );
 

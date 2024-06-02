@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +25,18 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
 
+  PlatformFile? imageUrl;
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles();
+
+    if (result == null) return;
+
+    setState(() {
+      imageUrl = result.files.first;
+    });
+  }
+
   void registerUser() async {
     final authService = Provider.of<AuthService>(context, listen: false);
 
@@ -32,6 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
         emailController.text,
         passwordController.text,
         usernameController.text,
+        imageUrl as String,
       );
 
       // ignore: use_build_context_synchronously
@@ -92,6 +108,35 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
 
                   const SizedBox(height: 25),
+
+                  // PHOTO UPLOAD
+                  CircleAvatar(
+                    backgroundImage: (imageUrl == null)
+                        ? const AssetImage('')
+                        : Image.file(File(imageUrl!.path!),
+                            width: double.infinity,
+                            fit: BoxFit.cover) as ImageProvider,
+                    radius: 60,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                              onPressed: selectFile,
+                              icon: const Icon(
+                                Icons.upload_outlined,
+                                size: 30,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 15),
 
                   // TEXTFIELD USERNAME
                   TextFormField(

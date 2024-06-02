@@ -38,7 +38,7 @@ void displayMessageToUser(String title, String text, BuildContext context) {
   );
 }
 
-void exibirPopUp(context, String text) {
+void descriptionPopUp(context, String text) {
   showDialog(
     context: context,
     builder: (context) {
@@ -52,6 +52,89 @@ void exibirPopUp(context, String text) {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Fechar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void galleryOrCameraDialog(context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Center(
+          child: Text(
+            'Escolha o meio de upload da imagem:',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.inversePrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        content: SizedBox(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () async {},
+                    icon: const Icon(Icons.photo_camera_outlined),
+                  ),
+                  Text(
+                    'Camera',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () async {},
+                    icon: const Icon(Icons.photo),
+                  ),
+                  Text(
+                    'Galeria',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              'Fechar',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              'Upload',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+            ),
           ),
         ],
       );
