@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,14 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
 
-  String? _imageSource;
-
-  Future selectFile() async {
-    String result = await galleryOrCameraDialog(context);
-    setState(() {
-      _imageSource = result;
-    });
-  }
+  Uint8List? _imageSource;
 
   void registerUser() async {
     final authService = Provider.of<AuthService>(context, listen: false);
@@ -39,7 +33,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     try {
       await authService.createUserWithEmailandPassword(emailController.text,
-          passwordController.text, usernameController.text, _imageSource);
+          passwordController.text, usernameController.text,
+          imageSource: _imageSource);
 
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -51,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
         context,
       );
       // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, '/loginpage');
+      Navigator.pop(context);
     } catch (e) {
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -63,6 +58,18 @@ class _RegisterPageState extends State<RegisterPage> {
         context,
       );
     }
+  }
+
+  setImage() async {
+    Uint8List fileBytes = await showDialog(
+      context: context,
+      builder: (context) {
+        return galleryOrCameraDialog(context);
+      },
+    );
+    setState(() {
+      _imageSource = fileBytes;
+    });
   }
 
   @override
@@ -102,8 +109,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // PHOTO UPLOAD
                   CircleAvatar(
-                    backgroundImage:
-                        _imageSource != null ? NetworkImage(_imageSource!) : null,
+                    backgroundImage: _imageSource == null
+                        ? null
+                        : MemoryImage(_imageSource!),
                     radius: 60,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -112,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             IconButton(
-                              onPressed: selectFile,
+                              onPressed: setImage,
                               icon: const Icon(
                                 Icons.upload_outlined,
                                 size: 30,

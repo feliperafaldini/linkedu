@@ -1,13 +1,12 @@
-import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
 
-void progressIndicator(context) {
+void progressIndicator(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) {
@@ -42,7 +41,7 @@ void displayMessageToUser(String title, String text, BuildContext context) {
   );
 }
 
-void descriptionPopUp(context, String text) {
+void descriptionPopUp(BuildContext context, String text) {
   showDialog(
     context: context,
     builder: (context) {
@@ -63,116 +62,86 @@ void descriptionPopUp(context, String text) {
   );
 }
 
-Future galleryOrCameraDialog(BuildContext context) async {
-  final authProvider =Provider.of<AuthService>(context, listen: false); 
-  FirebaseAuth auth = FirebaseAuth.instance;
-
+Future<Uint8List?> cameraUpload() async {
   ImagePicker imagePicker = ImagePicker();
+  XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Center(
-          child: Text(
-            'Escolha o meio de upload da imagem:',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.inversePrimary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        content: SizedBox(
-          height: 80,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          XFile? file = await imagePicker.pickImage(
-                            source: ImageSource.camera,
-                          );
-                          
+  if (file != null) return await file.readAsBytes();
+  return null;
+}
 
-                          if (file != null) {
-                            File filePath = File(file.path);
+Future<Uint8List?> galleryUpload() async {
+  ImagePicker imagePicker = ImagePicker();
+  XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
-                            String imageUrl = await authProvider.uploadUserImage(auth.currentUser!, filePath);
+  if (file != null) return await file.readAsBytes();
+  return null;
+}
 
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context, imageUrl);
-                            
-                          }
-                        },
-                        icon: const Icon(Icons.photo_camera_outlined),
-                      ),
-                      Text(
-                        'Camera',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          XFile? file = await imagePicker.pickImage(
-                            source: ImageSource.gallery,
-                          );
+galleryOrCameraDialog(context) {
+  return AlertDialog(
+    backgroundColor: Theme.of(context).colorScheme.surface,
+    title: const Center(
+      child: Text('Escolha o meio de envio da imagem:'),
+    ),
+    content: SizedBox(
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () async {
+              ImagePicker imagePicker = ImagePicker();
+              XFile? file =
+                  await imagePicker.pickImage(source: ImageSource.camera);
 
-                          if (file != null) {
-                            File filePath = File(file.path);
-
-                            String imageUrl = await authProvider.uploadUserImage(auth.currentUser!, filePath);
-
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context, imageUrl);
-
-                            
-                          }
-                        },
-                        icon: const Icon(Icons.photo),
-                      ),
-                      Text(
-                        'Galeria',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
+              if (file != null) {
+                Uint8List fileBytes = await file.readAsBytes();
+                if (context.mounted) Navigator.pop(context, fileBytes);
+              }
             },
-            child: Text(
-              'Fechar',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.camera_alt_outlined),
+                Text('Camera'),
+              ],
             ),
           ),
+          GestureDetector(
+            onTap: () async {
+              ImagePicker imagePicker = ImagePicker();
+              XFile? file =
+                  await imagePicker.pickImage(source: ImageSource.gallery);
+
+              if (file != null) {
+                Uint8List fileBytes = await file.readAsBytes();
+
+                if (context.mounted) Navigator.pop(context, fileBytes);
+              }
+            },
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.photo_album_outlined),
+                Text('Galeria'),
+              ],
+            ),
+          )
         ],
-      );
-    },
+      ),
+    ),
+    actions: [
+      TextButton(
+        onPressed: () => Navigator.pop(context),
+        child: Text(
+          'Cancelar',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
+        ),
+      ),
+    ],
   );
 }
 

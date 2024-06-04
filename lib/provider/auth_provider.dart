@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,12 +45,16 @@ class AuthService extends ChangeNotifier {
   }
 
   // Upload profile image
-  Future<String> uploadUserImage(User user, File imageUrl) async {
-    UploadTask uploadTask = _fireStorage.ref().child('usersProfilePicture/${user.uid}').putFile(imageUrl);
+  Future<String> uploadUserImage(
+      UserCredential userCredential, Uint8List imageSource) async {
+    UploadTask uploadTask = _fireStorage
+        .ref()
+        .child('UsersProfilePicture/${userCredential.user}/')
+        .putData(imageSource);
     try {
       TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-      
+
       return downloadUrl;
     } catch (e) {
       throw Exception(e);
@@ -59,13 +63,18 @@ class AuthService extends ChangeNotifier {
 
   // Create account Function
   Future<UserCredential> createUserWithEmailandPassword(
-      String email, String password, String name, String? downloadUrl) async {
+      String email, String password, String name,
+      {Uint8List? imageSource}) async {
+    String? downloadUrl;
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      if (downloadUrl != null) {
+      if (imageSource != null) {
+        downloadUrl = await uploadUserImage(userCredential, imageSource);
+      }
 
+      if (downloadUrl != null) {
         _fireStore.collection('users').doc(userCredential.user!.uid).set(
           {
             'uid': userCredential.user!.uid,
