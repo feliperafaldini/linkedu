@@ -61,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   setImage() async {
-    Uint8List fileBytes = await showDialog(
+    Uint8List? fileBytes = await showDialog(
       context: context,
       builder: (context) {
         return galleryOrCameraDialog(context);

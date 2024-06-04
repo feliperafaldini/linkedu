@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 120),
 
                   // TEXTFIELD EMAIL
                   TextFormField(
@@ -74,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: 'Email',
+                      prefixIcon: const Icon(Icons.alternate_email_outlined),
                     ),
                     validator: (value) {
                       if (value == null ||
@@ -95,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: 'Senha',
+                      prefixIcon: const Icon(Ionicons.finger_print_outline),
                       suffixIcon: GestureDetector(
                         onTap: () {
                           setState(
@@ -120,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
 
                   // BOTÃO RECUPERAR SENHA
                   Row(
@@ -142,16 +145,18 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
 
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 40),
 
                   // BOTÃO LOGIN
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.inversePrimary,
+                      fixedSize: const Size(400, 40),
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
                       animationDuration: const Duration(milliseconds: 100),
                       elevation: 1,
-                      shape: const RoundedRectangleBorder(),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -159,42 +164,63 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     },
                     child: Text(
-                      'LOGIN',
+                      'Login',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
-                        letterSpacing: 2,
                         fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 10),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Ainda não cadastrado?',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                          fontSize: 16,
-                        ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(400, 40),
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      animationDuration: const Duration(milliseconds: 100),
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      const SizedBox(width: 5),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/registerpage');
-                        },
-                        child: Text(
-                          'Registre agora',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.inversePrimary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      )
-                    ],
+                    ),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, '/registerpage'),
+                    child: Text(
+                      'Criar conta',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  const SizedBox(
+                    width: 280,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Divider(
+                          thickness: 1,
+                          height: 1,
+                        )),
+                        Text('  Ou utilize  '),
+                        Expanded(
+                            child: Divider(
+                          thickness: 1,
+                          height: 1,
+                        )),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Ionicons.logo_google,
+                    ),
                   )
                 ],
               ),

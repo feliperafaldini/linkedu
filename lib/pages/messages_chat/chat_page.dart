@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import '../../provider/chat_provider.dart';
 
 class ChatPage extends StatefulWidget {
+  final BuildContext context;
   final String receiverUserEmail;
   final String receiverUserId;
 
   const ChatPage({
     super.key,
+    required this.context,
     required this.receiverUserId,
     required this.receiverUserEmail,
   });
@@ -41,15 +43,18 @@ class _ChatPageState extends State<ChatPage> {
           child: Text(widget.receiverUserEmail),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _buildMessageList(),
-          ),
-          const Divider(),
-          _buildMessageInput(),
-          const SizedBox(height: 25),
-        ],
+      body: Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: Column(
+          children: [
+            Expanded(
+              child: _buildMessageList(),
+            ),
+            const Divider(),
+            _buildMessageInput(),
+            const SizedBox(height: 25),
+          ],
+        ),
       ),
     );
   }

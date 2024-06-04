@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,26 +79,15 @@ class AuthService extends ChangeNotifier {
         downloadUrl = await uploadUserImage(userCredential, imageSource);
       }
 
-      if (downloadUrl != null) {
-        _fireStore.collection('users').doc(userCredential.user!.uid).set(
-          {
-            'uid': userCredential.user!.uid,
-            'email': email,
-            'name': name,
-            'image': downloadUrl,
-            'createOn': DateTime.now(),
-          },
-        );
-      } else {
-        _fireStore.collection('users').doc(userCredential.user!.uid).set(
-          {
-            'uid': userCredential.user!.uid,
-            'email': email,
-            'name': name,
-            'createOn': DateTime.now(),
-          },
-        );
-      }
+      _fireStore.collection('users').doc(userCredential.user!.uid).set(
+        {
+          'uid': userCredential.user!.uid,
+          'email': email,
+          'name': name,
+          'image': downloadUrl,
+          'createOn': DateTime.now(),
+        },
+      );
 
       return userCredential;
     } on FirebaseAuthException catch (e) {

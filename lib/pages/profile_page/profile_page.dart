@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -43,20 +42,32 @@ class _ProfilePageState extends State<ProfilePage> {
 
         var userData = snapshot.data!;
         return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
+            const SizedBox(height: 20),
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Nome: '),
-                Text(userData['name']),
+                CircleAvatar(
+                  radius: 70,
+                  backgroundImage: NetworkImage(
+                    '${userData['image']}',
+                    scale: 1,
+                  ),
+                ),
               ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              userData['name'],
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  fontSize: 40),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text('Email: '),
                 Text(userData['email']),
               ],
             ),
