@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
@@ -59,8 +62,10 @@ void descriptionPopUp(context, String text) {
   );
 }
 
-void galleryOrCameraDialog(context) {
-  showDialog(
+Future galleryOrCameraDialog(BuildContext context) {
+  ImagePicker imagePicker = ImagePicker();
+
+  return showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
@@ -75,40 +80,60 @@ void galleryOrCameraDialog(context) {
           ),
         ),
         content: SizedBox(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          height: 80,
+          child: Column(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () async {},
-                    icon: const Icon(Icons.photo_camera_outlined),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          XFile? file = await imagePicker.pickImage(
+                            source: ImageSource.camera,
+                          );
+
+                          if (file != null) {
+                            Navigator.pop(context, file.path);
+                          }
+                        },
+                        icon: const Icon(Icons.photo_camera_outlined),
+                      ),
+                      Text(
+                        'Camera',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'Camera',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: () async {},
-                    icon: const Icon(Icons.photo),
-                  ),
-                  Text(
-                    'Galeria',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          XFile? file = await imagePicker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+
+                          if (file != null) {
+                            Navigator.pop(context, file.path);
+                          }
+                        },
+                        icon: const Icon(Icons.photo),
+                      ),
+                      Text(
+                        'Galeria',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -122,15 +147,6 @@ void galleryOrCameraDialog(context) {
             },
             child: Text(
               'Fechar',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Upload',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.inversePrimary,
               ),

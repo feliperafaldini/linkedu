@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
@@ -25,15 +25,12 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
 
-  PlatformFile? imageUrl;
+  File? _imageSource;
 
   Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles();
-
-    if (result == null) return;
-
+    File result = await galleryOrCameraDialog(context);
     setState(() {
-      imageUrl = result.files.first;
+      _imageSource = result;
     });
   }
 
@@ -43,12 +40,8 @@ class _RegisterPageState extends State<RegisterPage> {
     progressIndicator(context);
 
     try {
-      await authService.createUserWithEmailandPassword(
-        emailController.text,
-        passwordController.text,
-        usernameController.text,
-        imageUrl as String,
-      );
+      await authService.createUserWithEmailandPassword(emailController.text,
+          passwordController.text, usernameController.text, _imageSource);
 
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -111,11 +104,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // PHOTO UPLOAD
                   CircleAvatar(
-                    backgroundImage: (imageUrl == null)
-                        ? const AssetImage('')
-                        : Image.file(File(imageUrl!.path!),
-                            width: double.infinity,
-                            fit: BoxFit.cover) as ImageProvider,
+                    backgroundImage:
+                        _imageSource != null ? FileImage(_imageSource!) : null,
                     radius: 60,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
