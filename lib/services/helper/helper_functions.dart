@@ -64,7 +64,7 @@ void descriptionPopUp(context, String text) {
 }
 
 Future galleryOrCameraDialog(BuildContext context) async {
-  final authProvider =Provider.of<AuthService>(context); 
+  final authProvider =Provider.of<AuthService>(context, listen: false); 
   FirebaseAuth auth = FirebaseAuth.instance;
 
   ImagePicker imagePicker = ImagePicker();
