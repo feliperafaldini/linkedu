@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -66,9 +67,14 @@ class AuthService extends ChangeNotifier {
       String email, String password, String name,
       {Uint8List? imageSource}) async {
     String? downloadUrl;
+
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      if (imageSource != null) {
+        downloadUrl = await uploadUserImage(userCredential, imageSource);
+      }
 
       if (imageSource != null) {
         downloadUrl = await uploadUserImage(userCredential, imageSource);
