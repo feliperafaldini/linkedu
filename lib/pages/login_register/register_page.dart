@@ -1,7 +1,5 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
@@ -25,10 +23,10 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
 
-  File? _imageSource;
+  String? _imageSource;
 
   Future selectFile() async {
-    File result = await galleryOrCameraDialog(context);
+    String result = await galleryOrCameraDialog(context);
     setState(() {
       _imageSource = result;
     });
@@ -105,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   // PHOTO UPLOAD
                   CircleAvatar(
                     backgroundImage:
-                        _imageSource != null ? FileImage(_imageSource!) : null,
+                        _imageSource != null ? NetworkImage(_imageSource!) : null,
                     radius: 60,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,

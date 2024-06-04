@@ -44,21 +44,27 @@ class AuthService extends ChangeNotifier {
     return await _firebaseAuth.signOut();
   }
 
+  // Upload profile image
+  Future<String> uploadUserImage(User user, File imageUrl) async {
+    UploadTask uploadTask = _fireStorage.ref().child('usersProfilePicture/${user.uid}').putFile(imageUrl);
+    try {
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      
+      return downloadUrl;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   // Create account Function
   Future<UserCredential> createUserWithEmailandPassword(
-      String email, String password, String name, File? imageUrl) async {
+      String email, String password, String name, String? downloadUrl) async {
     try {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      if (imageUrl != null) {
-        UploadTask uploadTask = _fireStorage
-            .ref()
-            .child('usersProfilePicture/${userCredential.user!.uid}')
-            .putFile(imageUrl);
-
-        TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-        String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      if (downloadUrl != null) {
 
         _fireStore.collection('users').doc(userCredential.user!.uid).set(
           {

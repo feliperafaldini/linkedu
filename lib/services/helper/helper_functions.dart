@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -62,10 +63,13 @@ void descriptionPopUp(context, String text) {
   );
 }
 
-Future galleryOrCameraDialog(BuildContext context) {
+Future galleryOrCameraDialog(BuildContext context) async {
+  final authProvider =Provider.of<AuthService>(context); 
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   ImagePicker imagePicker = ImagePicker();
 
-  return showDialog(
+  showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
@@ -96,9 +100,16 @@ Future galleryOrCameraDialog(BuildContext context) {
                           XFile? file = await imagePicker.pickImage(
                             source: ImageSource.camera,
                           );
+                          
 
                           if (file != null) {
-                            Navigator.pop(context, file.path);
+                            File filePath = File(file.path);
+
+                            String imageUrl = await authProvider.uploadUserImage(auth.currentUser!, filePath);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context, imageUrl);
+                            
                           }
                         },
                         icon: const Icon(Icons.photo_camera_outlined),
@@ -122,7 +133,14 @@ Future galleryOrCameraDialog(BuildContext context) {
                           );
 
                           if (file != null) {
-                            Navigator.pop(context, file.path);
+                            File filePath = File(file.path);
+
+                            String imageUrl = await authProvider.uploadUserImage(auth.currentUser!, filePath);
+
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context, imageUrl);
+
+                            
                           }
                         },
                         icon: const Icon(Icons.photo),
