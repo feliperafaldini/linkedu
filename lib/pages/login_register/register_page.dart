@@ -19,7 +19,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmController = TextEditingController();
@@ -32,9 +33,13 @@ class _RegisterPageState extends State<RegisterPage> {
     progressIndicator(context);
 
     try {
-      await authService.createUserWithEmailandPassword(emailController.text,
-          passwordController.text, usernameController.text,
-          imageSource: _imageSource);
+      await authService.createUserWithEmailandPassword(
+        emailController.text,
+        passwordController.text,
+        firstNameController.text,
+        lastNameController.text,
+        imageSource: _imageSource,
+      );
 
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -87,12 +92,12 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Center(
-          child: Container(
+          child: Padding(
             padding: const EdgeInsets.all(25),
             child: Form(
               key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // NOME APP
                   Text(
@@ -100,55 +105,82 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: TextStyle(
                       letterSpacing: 2,
                       fontWeight: FontWeight.bold,
-                      fontSize: 30,
+                      fontSize: 38,
                       color: Theme.of(context).colorScheme.inversePrimary,
                     ),
                   ),
 
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 10),
+
+                  Text(
+                    'Registro de novo usuário',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+
+                  const Spacer(),
 
                   // PHOTO UPLOAD
                   CircleAvatar(
                     backgroundImage: _imageSource == null
                         ? null
                         : MemoryImage(_imageSource!),
-                    radius: 60,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            IconButton(
-                              onPressed: setImage,
-                              icon: const Icon(
-                                Icons.upload_outlined,
-                                size: 30,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    radius: 70,
+                    child: IconButton(
+                      tooltip: 'Adicionar foto de perfil',
+                      onPressed: setImage,
+                      icon: const Icon(
+                        Icons.add_a_photo_outlined,
+                        size: 60,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 50),
 
-                  // TEXTFIELD USERNAME
-                  TextFormField(
-                    controller: usernameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  // TEXTFIELD firstName
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: firstNameController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            hintText: 'Nome',
+                          ),
+                          validator: (value) {
+                            if (value == null || value.length <= 2) {
+                              return 'Nome Inválido';
+                            }
+                            return null;
+                          },
+                        ),
                       ),
-                      hintText: 'Nome de usuário',
-                    ),
-                    validator: (value) {
-                      if (value == null || value.length <= 5) {
-                        return 'Usuário inválido';
-                      }
-                      return null;
-                    },
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: TextFormField(
+                          controller: lastNameController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            hintText: 'Sobrenome',
+                          ),
+                          validator: (value) {
+                            if (value == null || value.length <= 2) {
+                              return 'Sobrenome Inválido';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
 
                   const SizedBox(height: 15),
@@ -245,16 +277,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
 
-                  const SizedBox(height: 15),
+                  const Spacer(),
 
                   // BOTÃO REGISTER
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.inversePrimary,
+                      fixedSize: const Size(400, 40),
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
                       animationDuration: const Duration(milliseconds: 100),
                       elevation: 1,
-                      shape: const RoundedRectangleBorder(),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

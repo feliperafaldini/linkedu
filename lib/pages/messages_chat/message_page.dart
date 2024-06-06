@@ -46,11 +46,12 @@ class _MessagePageState extends State<MessagePage> {
       return SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.all(12),
               margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: Colors.blue.shade300,
+                color: Colors.blue.shade200,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: ListTile(
@@ -66,11 +67,14 @@ class _MessagePageState extends State<MessagePage> {
                     ),
                   );
                 },
+                leading: const Icon(Icons.message_outlined),
                 title: Center(
                   child: Text(
                     data['email'],
                     style: const TextStyle(
                       color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
                 ),

@@ -18,15 +18,9 @@ import 'theme/light_mode.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => CardProvider(),
@@ -35,19 +29,28 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthService(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Projeto Integrador - LINKEDU',
-        theme: lightMode,
-        darkTheme: darkMode,
-        home: const AuthPage(),
-        routes: {
-          '/loginpage': (context) => const LoginPage(),
-          '/registerpage': (context) => const RegisterPage(),
-          '/recoveraccount': (context) => const RecoverAccount(),
-          '/homepage': (context) => const HomePage(),
-        },
-      ),
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Projeto Integrador - LINKEDU',
+      theme: darkMode,
+      darkTheme: darkMode,
+      home: const AuthPage(),
+      routes: {
+        '/loginpage': (context) => const LoginPage(),
+        '/registerpage': (context) => const RegisterPage(),
+        '/recoveraccount': (context) => const RecoverAccount(),
+        '/homepage': (context) => const HomePage(),
+      },
     );
   }
 }

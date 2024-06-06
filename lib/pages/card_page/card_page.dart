@@ -47,7 +47,7 @@ class _CardPageState extends State<CardPage> {
         child: Column(
           children: [
             widget.isFront ? buildFrontCard() : buildCard(),
-            const SizedBox(height: 20),
+            const Spacer(),
             buildButtons(context),
           ],
         ),
@@ -75,6 +75,15 @@ class _CardPageState extends State<CardPage> {
             ..translate(-center.dx, -center.dy);
 
           return AnimatedContainer(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 20,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
             curve: Curves.easeInOut,
             transform: rotatedMatrix..translate(position.dx, position.dy),
             duration: Duration(milliseconds: milliseconds),
@@ -226,9 +235,8 @@ class _CardPageState extends State<CardPage> {
 
   Widget buildButtons(context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(),
         // Botão Dislike
         Container(
           decoration: BoxDecoration(
@@ -240,7 +248,7 @@ class _CardPageState extends State<CardPage> {
             borderRadius: BorderRadius.circular(500),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.red.withOpacity(0.1),
                 blurRadius: 5,
                 spreadRadius: 0.1,
               ),
@@ -259,7 +267,7 @@ class _CardPageState extends State<CardPage> {
             },
           ),
         ),
-        const SizedBox(),
+        const SizedBox(width: 60),
         // Botão Like
         Container(
           height: 100,
@@ -272,7 +280,7 @@ class _CardPageState extends State<CardPage> {
             borderRadius: BorderRadius.circular(500),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.greenAccent.withOpacity(0.1),
                 blurRadius: 5,
                 spreadRadius: 0.1,
               ),
@@ -291,7 +299,6 @@ class _CardPageState extends State<CardPage> {
             },
           ),
         ),
-        const SizedBox()
       ],
     );
   }

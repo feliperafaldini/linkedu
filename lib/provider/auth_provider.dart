@@ -63,7 +63,7 @@ class AuthService extends ChangeNotifier {
 
   // Create account Function
   Future<UserCredential> createUserWithEmailandPassword(
-      String email, String password, String name,
+      String email, String password, String name, String lastName,
       {Uint8List? imageSource}) async {
     String? downloadUrl;
 
@@ -84,6 +84,7 @@ class AuthService extends ChangeNotifier {
           'uid': userCredential.user!.uid,
           'email': email,
           'name': name,
+          'lastName': lastName,
           'image': downloadUrl,
           'createOn': DateTime.now(),
         },

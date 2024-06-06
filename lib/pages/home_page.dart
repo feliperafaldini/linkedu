@@ -25,20 +25,20 @@ class _HomePageState extends State<HomePage> {
     switch (selectedIndex) {
       case 0:
         messageIcon = Ionicons.mail_outline;
-        return buildCards();
+        return buildCards(context);
       case 1:
         messageIcon = Ionicons.mail_open_outline;
-        return buildMessages();
+        return buildMessages(context);
       case 2:
         messageIcon = Ionicons.mail_outline;
-        return buildProfile();
+        return buildProfile(context);
       default:
         messageIcon = Ionicons.mail_outline;
-        return buildCards();
+        return buildCards(context);
     }
   }
 
-  Widget buildCards() {
+  Widget buildCards(context) {
     final provider = Provider.of<CardProvider>(context);
     final companies = provider.companies;
 
@@ -62,11 +62,11 @@ class _HomePageState extends State<HomePage> {
           );
   }
 
-  Widget buildMessages() {
+  Widget buildMessages(context) {
     return const MessagePage();
   }
 
-  Widget buildProfile() {
+  Widget buildProfile(context) {
     return const ProfilePage();
   }
 
@@ -92,6 +92,13 @@ class _HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
           backgroundColor: Theme.of(context).colorScheme.surface,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(5.0),
+            child: Container(
+              height: 1.0,
+              color: Colors.amberAccent.withOpacity(0.4),
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: logout,
