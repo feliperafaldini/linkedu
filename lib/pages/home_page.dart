@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 
 import '../provider/card_provider.dart';
 import '../models/job.dart';
+import '../provider/theme_provider.dart';
 import '../services/helper/helper_functions.dart';
 import 'card_page/card_page.dart';
 import 'messages_chat/message_page.dart';
@@ -76,6 +77,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'LINKEDU',
@@ -87,11 +90,11 @@ class _HomePageState extends State<HomePage> {
               fontWeight: FontWeight.bold,
               fontSize: 24,
               letterSpacing: 2,
-              color: Theme.of(context).colorScheme.inversePrimary,
+              color: themeProvider.theme.colorScheme.inversePrimary,
             ),
           ),
           centerTitle: true,
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: themeProvider.theme.colorScheme.surface,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(5.0),
             child: Container(
@@ -100,13 +103,21 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           actions: [
+            Switch(
+              value: themeProvider.isDark,
+              onChanged: (value) {
+                setState(() {
+                  themeProvider.toggleTheme();
+                });
+              },
+            ),
             IconButton(
               onPressed: logout,
               tooltip: 'Logout',
-              hoverColor: Theme.of(context).colorScheme.primary,
+              hoverColor: themeProvider.theme.colorScheme.primary,
               icon: Icon(
                 Icons.logout,
-                color: Theme.of(context).colorScheme.inversePrimary,
+                color: themeProvider.theme.colorScheme.inversePrimary,
                 size: 32,
               ),
             ),
@@ -115,12 +126,12 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
+            color: themeProvider.theme.colorScheme.surface,
           ),
           child: changeBody(selectedIndex),
         ),
         bottomNavigationBar: Container(
-          color: Theme.of(context).colorScheme.surface,
+          color: themeProvider.theme.colorScheme.surface,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
             child: GNav(
@@ -128,9 +139,9 @@ class _HomePageState extends State<HomePage> {
               rippleColor: const Color.fromARGB(255, 8, 138, 245),
               hoverColor: Colors.grey,
               haptic: true,
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              tabBackgroundColor: Theme.of(context).colorScheme.tertiary,
-              activeColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: themeProvider.theme.colorScheme.surface,
+              tabBackgroundColor: themeProvider.theme.colorScheme.tertiary,
+              activeColor: themeProvider.theme.colorScheme.primary,
               gap: 10,
               iconSize: 30,
               padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -145,17 +156,17 @@ class _HomePageState extends State<HomePage> {
                 GButton(
                   icon: Ionicons.briefcase_outline,
                   text: 'Vagas',
-                  iconColor: Theme.of(context).colorScheme.inversePrimary,
+                  iconColor: themeProvider.theme.colorScheme.inversePrimary,
                 ),
                 GButton(
                   icon: messageIcon,
                   text: 'Menssagens',
-                  iconColor: Theme.of(context).colorScheme.inversePrimary,
+                  iconColor: themeProvider.theme.colorScheme.inversePrimary,
                 ),
                 GButton(
                   icon: Ionicons.person_circle_outline,
                   text: 'Perfil',
-                  iconColor: Theme.of(context).colorScheme.inversePrimary,
+                  iconColor: themeProvider.theme.colorScheme.inversePrimary,
                 ),
               ],
             ),

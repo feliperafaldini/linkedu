@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../provider/chat_provider.dart';
+import '../../provider/theme_provider.dart';
 
 class ChatPage extends StatefulWidget {
   final BuildContext context;
@@ -37,14 +39,16 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Center(
           child: Text(widget.receiverUserEmail),
         ),
+        backgroundColor: themeProvider.theme.colorScheme.surface,
       ),
       body: Container(
-        color: Theme.of(context).colorScheme.surface,
+        color: themeProvider.theme.colorScheme.surface,
         child: Column(
           children: [
             Expanded(

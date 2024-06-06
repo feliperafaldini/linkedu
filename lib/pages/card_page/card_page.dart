@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../provider/card_provider.dart';
 import '../../models/company.dart';
 import '../../models/job.dart';
+import '../../provider/theme_provider.dart';
 import '../../services/helper/helper_functions.dart';
 
 class CardPage extends StatefulWidget {
@@ -234,13 +235,14 @@ class _CardPageState extends State<CardPage> {
   }
 
   Widget buildButtons(context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // Botão Dislike
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: themeProvider.theme.colorScheme.surface,
             border: Border.all(
               color: Colors.red.withOpacity(0.1),
               width: 2,
@@ -272,7 +274,7 @@ class _CardPageState extends State<CardPage> {
         Container(
           height: 100,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: themeProvider.theme.colorScheme.surface,
             border: Border.all(
               color: Colors.greenAccent.withOpacity(0.1),
               width: 2,

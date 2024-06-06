@@ -6,14 +6,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/auth_provider.dart';
+import 'provider/theme_provider.dart';
 import 'services/auth/auth.dart';
 import 'provider/card_provider.dart';
 import 'pages/home_page.dart';
 import 'pages/login_register/login_page.dart';
 import 'pages/login_register/recover_account_page.dart';
 import 'pages/login_register/register_page.dart';
-import 'theme/dark_mode.dart';
-import 'theme/light_mode.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +27,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => AuthService(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(),
+        )
       ],
       child: const MyApp(),
     ),
@@ -39,11 +41,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Projeto Integrador - LINKEDU',
-      theme: darkMode,
-      darkTheme: darkMode,
+      theme: themeProvider.theme,
       home: const AuthPage(),
       routes: {
         '/loginpage': (context) => const LoginPage(),
