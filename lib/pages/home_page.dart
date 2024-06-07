@@ -7,6 +7,7 @@ import '../provider/card_provider.dart';
 import '../models/job.dart';
 import '../provider/theme_provider.dart';
 import '../services/helper/helper_functions.dart';
+
 import 'card_page/card_page.dart';
 import 'messages_chat/message_page.dart';
 import 'profile_page/profile_page.dart';
@@ -95,13 +96,6 @@ class _HomePageState extends State<HomePage> {
           ),
           centerTitle: true,
           backgroundColor: themeProvider.theme.colorScheme.surface,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(5.0),
-            child: Container(
-              height: 1.0,
-              color: Colors.amberAccent.withOpacity(0.4),
-            ),
-          ),
           actions: [
             Switch(
               value: themeProvider.isDark,

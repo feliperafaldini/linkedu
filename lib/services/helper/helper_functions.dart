@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
+import '../../provider/theme_provider.dart';
 
 void progressIndicator(BuildContext context) {
   showDialog(
@@ -18,12 +19,13 @@ void progressIndicator(BuildContext context) {
 }
 
 void displayMessageToUser(String title, String text, BuildContext context) {
+  final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      closeIconColor: Theme.of(context).colorScheme.primary,
+      closeIconColor: themeProvider.theme.colorScheme.primary,
       showCloseIcon: true,
       duration: const Duration(seconds: 2),
-      backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+      backgroundColor: themeProvider.theme.colorScheme.inverseSurface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),
@@ -42,19 +44,35 @@ void displayMessageToUser(String title, String text, BuildContext context) {
 }
 
 void descriptionPopUp(BuildContext context, String text) {
+  final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: const Center(
-          child: Text('Descrição da vaga'),
+        backgroundColor: themeProvider.theme.colorScheme.surface,
+        title: Center(
+          child: Text(
+            'Descrição da vaga',
+            style: TextStyle(
+              color: themeProvider.theme.colorScheme.inversePrimary,
+            ),
+          ),
         ),
-        content: Text(text),
+        content: Text(
+          text,
+          style: TextStyle(
+            color: themeProvider.theme.colorScheme.inversePrimary,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Fechar'),
+            child: Text(
+              'Fechar',
+              style: TextStyle(
+                color: themeProvider.theme.colorScheme.inversePrimary,
+              ),
+            ),
           ),
         ],
       );

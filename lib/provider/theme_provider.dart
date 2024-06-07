@@ -24,7 +24,7 @@ class ThemeProvider extends ChangeNotifier {
     colorScheme: ColorScheme.dark(
       surface: Colors.grey.shade900,
       inverseSurface: Colors.grey.shade50,
-      primary: Colors.grey.shade800,
+      primary: Colors.grey.shade600,
       inversePrimary: Colors.grey.shade100,
       secondary: Colors.grey.shade700,
       tertiary: Colors.blue.shade300,
