@@ -13,6 +13,7 @@ import 'pages/home_page.dart';
 import 'pages/login_register/login_page.dart';
 import 'pages/login_register/recover_account_page.dart';
 import 'pages/login_register/register_page.dart';
+import 'services/neo4j_functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,10 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
-        )
+        ),
+        Provider(
+          create: (context) => Neo4jService(),
+        ),
       ],
       child: const MyApp(),
     ),

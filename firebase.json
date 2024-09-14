@@ -1,1 +1,50 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"linkedu-projeto-integrador","appId":"1:1097056685313:android:51ba2e890ade3b70addf00","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"linkedu-projeto-integrador","configurations":{"android":"1:1097056685313:android:51ba2e890ade3b70addf00","ios":"1:1097056685313:ios:dadd69671a7861a3addf00","web":"1:1097056685313:web:3a8d77fcd45843c1addf00"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "linkedu-projeto-integrador",
+          "appId": "1:1097056685313:android:51ba2e890ade3b70addf00",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "linkedu-projeto-integrador",
+          "configurations": {
+            "android": "1:1097056685313:android:51ba2e890ade3b70addf00",
+            "ios": "1:1097056685313:ios:dadd69671a7861a3addf00",
+            "web": "1:1097056685313:web:3a8d77fcd45843c1addf00"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ],
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "pubsub": {
+      "port": 8085
+    }
+  }
+}
