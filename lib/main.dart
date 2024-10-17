@@ -1,6 +1,12 @@
 // Imports flutter
 import 'package:flutter/material.dart';
 
+// Imports developer
+import 'dart:developer';
+
+// Imports http
+import 'package:http/http.dart' as http;
+
 // Imports firebase
 import 'package:linkedu/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,15 +51,26 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    // mainSync();
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Projeto Integrador - LINKEDU',
+      title: 'Projeto Integrador - Grafos - LINKEDU',
       theme: themeProvider.theme,
       home: const AuthPage(),
       routes: {
@@ -63,5 +80,15 @@ class MyApp extends StatelessWidget {
         '/homepage': (context) => const HomePage(),
       },
     );
+  }
+
+  // Sync function
+  Future<void> mainSync() async {
+    final response = await http.get(Uri.parse('http://localhost:3000/sync'));
+    if (response.statusCode == 200) {
+      log(response.body);
+    } else {
+      log('Request failed with status: ${response.statusCode}.');
+    }
   }
 }
