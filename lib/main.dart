@@ -1,20 +1,28 @@
+// Imports flutter
 import 'package:flutter/material.dart';
 
+// Imports firebase
 import 'package:linkedu/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+// Imports provider package
 import 'package:provider/provider.dart';
 
+// Imports providers
 import 'provider/auth_provider.dart';
 import 'provider/theme_provider.dart';
-import 'services/auth/auth.dart';
 import 'provider/card_provider.dart';
+
+// Imports auth
+import 'services/auth/auth.dart';
+
+// Imports pages
 import 'pages/home_page.dart';
 import 'pages/login_register/login_page.dart';
 import 'pages/login_register/recover_account_page.dart';
 import 'pages/login_register/register_page.dart';
-import 'services/neo4j_functions.dart';
 
+// Main function
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -30,9 +38,6 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
-        ),
-        Provider(
-          create: (context) => Neo4jService(),
         ),
       ],
       child: const MyApp(),
