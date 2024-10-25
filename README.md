@@ -2,7 +2,7 @@
 <h1 align="center"> LINKEDU </h1>
 
 <p align="center">
-    <img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge" />
+    <img src="https://img.shields.io/badge/STATUS-Em%20Desenvolvimento-GREEN" />
     <img src="https://img.shields.io/github/release-date/feliperafaldini/linkedu" />
 </p>
 
