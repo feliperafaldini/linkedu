@@ -1,12 +1,6 @@
 // Imports flutter
 import 'package:flutter/material.dart';
 
-// Imports developer
-import 'dart:developer';
-
-// Imports http
-import 'package:http/http.dart' as http;
-
 // Imports firebase
 import 'package:linkedu/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -60,35 +54,44 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    super.initState();
-    // mainSync();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Projeto Integrador - Grafos - LINKEDU',
-      theme: themeProvider.theme,
-      home: const AuthPage(),
-      routes: {
-        '/loginpage': (context) => const LoginPage(),
-        '/registerpage': (context) => const RegisterPage(),
-        '/recoveraccount': (context) => const RecoverAccount(),
-        '/homepage': (context) => const HomePage(),
-      },
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Projeto Integrador - Grafos - LINKEDU',
+        theme: themeProvider.theme,
+        home: const AuthPage(),
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/loginpage':
+              return _createRoute(const LoginPage());
+            case '/registerpage':
+              return _createRoute(const RegisterPage());
+            case '/recoveraccount':
+              return _createRoute(const RecoverAccount());
+            case '/homepage':
+              return _createRoute(const HomePage());
+            default:
+              return MaterialPageRoute(
+                builder: (context) => const AuthPage(),
+              );
+          }
+        });
   }
+}
 
-  // Sync function
-  Future<void> mainSync() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/sync'));
-    if (response.statusCode == 200) {
-      log(response.body);
-    } else {
-      log('Request failed with status: ${response.statusCode}.');
-    }
-  }
+Route _createRoute(Widget page) {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.easeInSine;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var offsetAnimation = animation.drive(tween);
+
+      return SlideTransition(position: offsetAnimation, child: child);
+    },
+  );
 }

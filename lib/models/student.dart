@@ -10,4 +10,13 @@ class Student {
     required this.semester,
     required this.ra,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'course': course,
+      'semester': semester,
+      'ra': ra,
+    };
+  }
 }
