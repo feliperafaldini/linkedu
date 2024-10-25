@@ -12,9 +12,9 @@ LINKEDU é um projeto com fins educativos dos alunos de Engenharia da Computaç�
 ### Colaboradores
 [Bruno Filipe Janelli](https://github.com)
 <br>
-<a href="https://github.com/feliperafaldini" target="_blank">Felipe Albino Rafaldini</a>
+[Felipe Albino Rafaldini](https://github.com/feliperafaldini)
 <br>
-<a href="https://github.com/LMP216" target="_blank">Lenin Pellizonni</a>
+[Lenin Pellizonni](https://github.com/LMP216)
 <br>
 [Pedro Lucas Silva](https://github.com)
 <br>
