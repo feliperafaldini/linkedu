@@ -23,7 +23,7 @@ LINKEDU é um projeto com fins educativos dos alunos de Engenharia da Computaç�
 
 ## Objetivo
 
-O objetivo do aplicativo LINKEDU é facilitar a busca por estágios dos alunos
+O objetivo do aplicativo LINKEDU é facilitar a busca por estágios dos alunos.
 
 ## Técnologias Utilizadas
 <p align="center">
