@@ -3,7 +3,6 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/status-Em%20Desenvolvimento-red" />
-    <img src="https://img.shields.io/github/release-date/feliperafaldini/linkedu" />
 </p>
 
 ## Introdução
