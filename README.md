@@ -10,13 +10,13 @@
 LINKEDU é um projeto com fins educativos dos alunos de Engenharia da Computação da [Universidade de Sorocaba (UNISO)](https://uniso.br).
 
 ### Colaboradores
-[Bruno Filipe Janelli](https://github.com)
+[Bruno Filipe Janelli](https://github.com/Bruno-Janelli)
 <br>
 [Felipe Albino Rafaldini](https://github.com/feliperafaldini)
 <br>
 [Lenin Pellizonni](https://github.com/LMP216)
 <br>
-[Pedro Lucas Silva](https://github.com)
+[Pedro Lucas Silva](https://github.com/goutcha)
 <br>
 [Peterson dos Santos](https://github.com)
 
